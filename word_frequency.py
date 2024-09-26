@@ -18,12 +18,18 @@ Hints:
 """
 
 import sys
-
 def word_frequency(text):
     frequencies = {} # Dictionary to store word frequencies
-
     # Your code here
-    
+    #defining punctuation
+    text2 = text.replace("—", " ")
+    punctuation = "!#$%&'()*+,./:;<=>?@[]^_`{|}~“”’‘"
+    #trim into words without punctuation
+    words = text2.translate(str.maketrans('', '', punctuation)).lower().split()
+    #iterate each word, +1 if a word appears twice, if not register the word and count 1
+    for word in words:
+        frequencies[word]=frequencies.get(word, 0) + 1
+    frequencies = dict(sorted(frequencies.items()))
     return frequencies
 
 # Scaffold for opening a file and running word_frequency() on the contents
@@ -34,7 +40,8 @@ if __name__ == "__main__":
     
     filename = sys.argv[1]
     try:
-        with open(filename, 'r') as file:
+        #windows accept only a utf-8.
+        with open(filename, 'r', encoding="utf-8") as file:
             text = file.read() # Read the entire file into a string
         
         frequencies = word_frequency(text)
